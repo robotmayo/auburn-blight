@@ -1,0 +1,5 @@
+{
+  "UPDATE" : "GAME_UPDATE",
+  "START" : "GAME_START",
+  "END" : "GAME_END" 
+}

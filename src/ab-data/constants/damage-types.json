@@ -1,0 +1,9 @@
+{
+  "PURE" : "PURE",
+  "PHYSICAL" : "PHYSICAL",
+  "MAGICAL" : "MAGICAL",
+  "STUN" : "STUN",
+  "PARA" : "PARALASYS",
+  "POISON" : "POISON",
+  "HP" : "HP"
+}

@@ -1,0 +1,78 @@
+{
+  "str" : {"name" : "Strength", "abbv" : "STR", "min" : 0, "max" : 9999, "desc" : "Affects physical damage. Slightly affects Max Health. Affects stun threshold."},
+  "dex" : {"name" : "Dexterity", "abbv" : "DEX", "min" : 0, "max" : 9999, "desc" : "Affects AP regen. Affects damage with ranged weapons. Affects paralysis threshold."},
+  "wis" : {"name" : "Wisdom", "abbv" : "WIS", "min" : 0, "max" : 9999, "desc" : "Affects magic damage. Slightly affects Max MP"},
+  "luk" : {"name" : "Luck", "abbv" : "LUK", "min" : 0, "max" : 9999, "desc" : "Affects item find. Slightly affects physical and ranged damage. Affects poison threshold."},
+  "vit" : {"name" : "Vitality", "abbv" : "VIT", "min" : 0, "max" : 9999, "desc" : "Increases Max Health. Increases Stamina."},
+  "int" : {"name" : "Intelligence", "abbv" : "INT", "min" : 0, "max" : 9999, "desc" : "Affects MP."},
+  "hp" : {"name" : "Health", "abbv" : "HP", "min" : 0, "max" : 9999, "desc" : "Life Force"},
+  "mp" : {"name" : "Mana", "abbv" : "MP", "min" : 0, "max" : 9999, "desc" : "Magic Capacity"},
+  "ap" : {"name" : "Ability Points", "abbv" : "AP", "min" : 0, "max" : 9999, "desc" : "Ability Points"},
+  "sp" : {"name" : "Skill Points", "abbv" : "SP", "min" : 0, "max" : 9999, "desc" : "Skill Points"},
+  "stamina" : {"name" : "Stamina", "abbv" : "STM", "min" : 0, "max" : 9999, "desc" : "Stamina"},
+  "critChance" : {"name" : "Critical Chance", "abbv" : "CRT CHN", "min" : 0, "max" : 90, "desc" : "Chance for critical hit(+% damage)"},
+  "critDamage" : {"name" : "Critical Damage", "abbv" : "CRT DMG", "min" : 0, "max" : 9999, "desc" : "% damage to crit for."},
+  "armor" : {"name" : "Armor", "abbv" : "ARM", "min" : 0, "max" : 9999, "desc" : "Reduces physical damage taken"},
+  "magicRes" : {"name" : "Magic Resistance", "abbv" : "RES", "min" : 0, "max" : 9999, "desc" : "Reduces magical damage taken"},
+  "hpRegen" : {"name" : "Health Regeneration", "abbv" : "HP RGN", "min" : 0, "max" : 9999, "desc" : "HP regenerated per second."},
+  "mpRegen" : {"name" : "Mana Regeneration", "abbv" : "MP RGN", "min" : 0, "max" : 9999, "desc" : "MP regenerated per second."},
+  "apRegen" : {"name" : "Action Point Regeneration", "abbv" : "AP RGN", "min" : 0, "max" : 9999, "desc" : "AP regenerated per second."},
+
+  "armorPenFlat" : {"name" : "Flat Armor Penetration", "abbv" : "ARM PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets armor."},
+  "armorPenPercent" : {"name" : "Percent Armor Penetration", "abbv" : "ARM PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets armor."},
+  "magicResPenFlat" : {"name" : "Flat Magic Resistance Penetration", "abbv" : "RES PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets Magic Resistance."},
+  "magicResPenPercent" : {"name" : "Percent Magic Resistance Penetration", "abbv" : "RES PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Magic Resistance."},
+
+  "stunThreshold" : {"name" : "Stun threshold", "abbv" : "STN TRH", "min" : 0, "max" : 9999, "desc" : "Stun threshold"},
+  "stunRegen" : {"name" : "Stun Regen", "abbv" : "STN RGN", "min" : 0, "max" : 9999, "desc" : "Stun threshold regeneration"},
+
+  "poisonThreshold" : {"name" : "Poison threshold", "abbv" : "PSN TRH", "min" : 0, "max" : 9999, "desc" : "Poison threshold"},
+  "poisonRegen" : {"name" : "Poison Regen", "abbv" : "PSN RGN", "min" : 0, "max" : 9999, "desc" : "Poison threshold regeneration"},
+  "poisonResitance" : {"name" : "Poison Resistance", "abbv" : "PSN RES", "min" : 0, "max" : 9999, "desc" : "Reduces damage taken from poison."},
+
+  "paralysisThreshold" : {"name" : "Paralysis threshold", "abbv" : "PARA TRH", "min" : 0, "max" : 9999, "desc" : "Paralysis threshold"},
+  "paralysisRegen" : {"name" : "Paralysis threshold", "abbv" : "PARA RGN", "min" : 0, "max" : 9999, "desc" : "Paralysis threshold regen"},
+
+  "fireAff" : {"name" : "Fire Affinity", "abbv" : "FIR AFF", "min" : 0, "max" : 9999, "desc" : "Bonus fire damage"},
+  "iceAff" : {"name" : "Ice Affinity", "abbv" : "ICE AFF", "min" : 0, "max" : 9999, "desc" : "Bonus ice damage"},
+  "waterAff" : {"name" : "Water Affinity", "abbv" : "WTR AFF", "min" : 0, "max" : 9999, "desc" : "Bonus water damage"},
+  "electricAff" : {"name" : "Electric Affinity", "abbv" : "ELC AFF", "min" : 0, "max" : 9999, "desc" : "Bonus Electric damage"},
+  "earthAff" : {"name" : "Earth Affinity", "abbv" : "ERF AFF", "min" : 0, "max" : 9999, "desc" : "Bonus Earth damage"},
+  "windAff" : {"name" : "Wind Affinity", "abbv" : "WND AFF", "min" : 0, "max" : 9999, "desc" : "Bonus Wind damage"},
+  "darkAff" : {"name" : "Dark Affinity", "abbv" : "DRK AFF", "min" : 0, "max" : 9999, "desc" : "Bonus Dark damage"},
+  "lightAff" : {"name" : "Light Affinity", "abbv" : "LGT AFF", "min" : 0, "max" : 9999, "desc" : "Bonus Light damage"},
+
+  "fireRes" : {"name" : "Fire Resistance", "abbv" : "FIR AFF", "min" : 0, "max" : 9999, "desc" : "Reduces fire damage taken."},
+  "iceRes" : {"name" : "Ice Resistance", "abbv" : "ICE AFF", "min" : 0, "max" : 9999, "desc" : "Reduces ice damage taken."},
+  "waterRes" : {"name" : "Water Resistance", "abbv" : "WTR AFF", "min" : 0, "max" : 9999, "desc" : "Reduces water damage taken."},
+  "electricRes" : {"name" : "Electric Resistance", "abbv" : "ELC AFF", "min" : 0, "max" : 9999, "desc" : "Reduces Electric damage taken."},
+  "earthRes" : {"name" : "Earth Resistance", "abbv" : "ERF AFF", "min" : 0, "max" : 9999, "desc" : "Reduces Earth damage taken."},
+  "windRes" : {"name" : "Wind Resistance", "abbv" : "WND AFF", "min" : 0, "max" : 9999, "desc" : "Reduces Wind damage taken."},
+  "darkRes" : {"name" : "Dark Resistance", "abbv" : "DRK AFF", "min" : 0, "max" : 9999, "desc" : "Reduces Dark damage taken."},
+  "lightRes" : {"name" : "Light Resistance", "abbv" : "LGT AFF", "min" : 0, "max" : 9999, "desc" : "Reduces Light damage taken."},
+
+  "fireResPenFlat" : {"name" : "Flat Fire Resistance Penetration", "abbv" : "FIR PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets Fire Resistance."},
+  "fireResPenPercent" : {"name" : "Percent Fire Resistance Penetration", "abbv" : "FIR PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Fire Resistance."},
+
+  "iceResPenFlat" : {"name" : "Flat Ice Resistance Penetration", "abbv" : "ICE PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets Ice Resistance."},
+  "iceResPenPercent" : {"name" : "Percent Ice Resistance Penetration", "abbv" : "ICE PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Ice Resistance."},
+
+  "waterResPenFlat" : {"name" : "Flat Water Resistance Penetration", "abbv" : "WTR PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets Water Resistance."},
+  "waterResPenPercent" : {"name" : "Percent Water Resistance Penetration", "abbv" : "WTR PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Water Resistance."},
+
+  "electricResPenFlat" : {"name" : "Flat Electric Resistance Penetration", "abbv" : "ELC PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets Electric Resistance."},
+  "electricResPenPercent" : {"name" : "Percent Electric Resistance Penetration", "abbv" : "ELC PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Electric Resistance."},
+
+  "windResPenFlat" : {"name" : "Flat Wind Resistance Penetration", "abbv" : "WND PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets Wind Resistance."},
+  "windResPenPercent" : {"name" : "Percent Wind Resistance Penetration", "abbv" : "WND PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Wind Resistance."},
+
+  "earthResPenFlat" : {"name" : "Flat Earth Resistance Penetration", "abbv" : "ERF PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets Earth Resistance."},
+  "earthResPenPercent" : {"name" : "Percent Earth Resistance Penetration", "abbv" : "ERF PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Earth Resistance."},
+
+  "darkResPenFlat" : {"name" : "Flat Dark Resistance Penetration", "abbv" : "DRK PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets Dark Resistance."},
+  "darkResPenPercent" : {"name" : "Percent Dark Resistance Penetration", "abbv" : "DRK PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Dark Resistance."},
+
+  "lightResPenFlat" : {"name" : "Flat Light Resistance Penetration", "abbv" : "LGT PEN FLT", "min" : 0, "max" : 9999, "desc" : "Ignores a flat amount of the targets Light Resistance."},
+  "lightResPenPercent" : {"name" : "Percent Light Resistance Penetration", "abbv" : "LGT PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Light Resistance."}
+
+}
