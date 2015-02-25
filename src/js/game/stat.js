@@ -10,7 +10,9 @@ function Stat(current, min, max, name, abbv, desc){
   this.abbv = abbv;
   this.desc = desc;
 }
-
+Stat.prototype.floor = function() {
+  this.current = this.min;
+};
 Stat.prototype.add = function(val) {
   this.current += val;
   this.clamp();

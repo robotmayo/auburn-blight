@@ -1,0 +1,5 @@
+{
+  "UPDATE" : "BATTLE_UPDATE",
+  "START" : "BATTLE_START",
+  "END" : "BATTLE_END" 
+}

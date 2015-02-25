@@ -1,26 +1,40 @@
 var Entity = require('./entity');
 var xtend = require('xtend');
 var EQUIPMENT_SLOTS = require('ab-data/equipment-slots');
-var eventer = require('./event');
+var Gevent = require('./gevent');
 var EVENTS = require('ab-data/events');
 Player = new Entity({ap : {max : 4}});
 Player.init = function(){
-  this.currentTarget = {};
-  eventer.on(EVENTS.GAME.UPDATE, this.update.bind(this));
+  this.activeSkills = {
+    basicAttack : {
+      name : 'Basic Attack',
+      use : function(enemy){
+        console.log("Attack", arguments)
+      },
+      canUse : function(){return true},
+      castTime : 0
+    }
+  };
+  Gevent.on(EVENTS.GAME.UPDATE, this.update.bind(this));
+  Gevent.on(EVENTS.GAME.END, this.updateStats.bind(this));
+  Gevent.on(EVENTS.BATTLE.START, this.battleStart);
+}
+
+Player.battleStart = function(){
+  this.stats.ap.floor();
 }
 
 Player.update = function(){
-  this.stats.hp.add(this.stats.hpRegen.current);
-  this.stats.mp.add(this.stats.mpRegen.current);
-  this.stats.ap.add(this.stats.apRegen.current);
+  this.regen(true, true, true);
 }
 
-Player.useSkill = function(skill){
+Player.useSkill = function(skill, enemy){
   if(!skill.canUse(this)) return false;
-  if(skill.castTime == 0) return skill.use(pMem);
+  if(skill.castTime == 0) return skill.use(Player, enemy);
   this.casting = setTimeout(function(){
-    skill.use(pMem. Player.target);
-  }, skill.castTime);
+    skill.use(Player, Player.target);
+  }, skill.castTime *
+   1000);
 };
 
-module.exports = Player;
+global.Player = module.exports = Player;

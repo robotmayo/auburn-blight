@@ -1,22 +1,20 @@
 var stats = require('ab-data/stats');
 var Stat = require('ab-game/stat');
 var xtend = require('xtend');
-var eventer = require('ab-game/event');
+var eventer = require('ab-game/gevent');
 var EVENTS = require('ab-data/events');
 var EQUIPMENT_SLOTS = require('ab-data/equipment-slots');
 
 function Ent(st){
 	this.stats = this.createStats(st);
-  eventer.on(EVENTS.GAME.END, this.updateStats.bind(this));
-  eventer.on(EVENTS.GAME.END, this.update.bind(this));
   this.equipped = xtend(EQUIPMENT_SLOTS, {});
   this.skills = {};
 }
 
-Ent.prototype.update = function() {
-  this.stats.hp.add(this.stats.hpRegen.current);
-  this.stats.mp.add(this.stats.mpRegen.current);
-  this.stats.ap.add(this.stats.apRegen.current);
+Ent.prototype.regen = function(hp, mp, ap) {
+  if(hp) this.stats.hp.add(this.stats.hpRegen.current);
+  if(mp) this.stats.mp.add(this.stats.mpRegen.current);
+  if(ap) this.stats.ap.add(this.stats.apRegen.current);
 };
 
 Ent.prototype.updateStats = function() {

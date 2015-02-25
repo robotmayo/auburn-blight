@@ -1,11 +1,12 @@
 var Game = {};
 var EVENTS = require('ab-data/events');
-var eventor = require('./event');
+var Gevent = require('./gevent');
 var Player = require('./player');
 Game.player = Player;
 //var Storage = require('./storage')
 Game.timer = {
   elapsed : 0,
+  last : 0,
   id : null
 };
 
@@ -15,16 +16,18 @@ Game.settings = {
 };
 
 Game.start = function(){
+  Game.timer.last = Date.now();
   Game.tick();
 }
 
 Game.tick = function(){
   var now = Date.now();
   Game.timer.elapsed = now - Game.timer.last;
-  eventor.emit(EVENTS.GAME.START, Game);
-  eventor.emit(EVENTS.GAME.UPDATE, Game);
-  eventor.emit(EVENTS.GAME.END, Game);
+  Gevent.emit(EVENTS.GAME.START, Game);
+  Gevent.emit(EVENTS.GAME.UPDATE, Game);
+  Gevent.emit(EVENTS.GAME.END, Game);
   Game.timer.id = setTimeout(Game.tick, Game.settings.FPS / 1000);
+  Game.timer.last = Date.now();
 }
 
 module.exports = Game;
