@@ -6,6 +6,7 @@ var EVENTS = require('ab-data/events');
 var EQUIPMENT_SLOTS = require('ab-data/equipment-slots');
 
 function Ent(st){
+  this.name = "Enemy";
 	this.stats = this.createStats(st);
   this.equipped = xtend(EQUIPMENT_SLOTS, {});
   this.skills = {};
@@ -15,6 +16,10 @@ Ent.prototype.regen = function(hp, mp, ap) {
   if(hp) this.stats.hp.add(this.stats.hpRegen.current);
   if(mp) this.stats.mp.add(this.stats.mpRegen.current);
   if(ap) this.stats.ap.add(this.stats.apRegen.current);
+};
+
+Ent.prototype.update = function() {
+
 };
 
 Ent.prototype.updateStats = function() {

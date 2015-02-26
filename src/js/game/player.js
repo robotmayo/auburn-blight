@@ -5,11 +5,12 @@ var Gevent = require('./gevent');
 var EVENTS = require('ab-data/events');
 Player = new Entity({ap : {max : 4}});
 Player.init = function(){
+  this.name = "Player"
   this.activeSkills = {
     basicAttack : {
       name : 'Basic Attack',
-      use : function(enemy){
-        console.log("Attack", arguments)
+      use : function(player, enemy){
+        console.log("Attack!", enemy)
       },
       canUse : function(){return true},
       castTime : 0
@@ -17,7 +18,7 @@ Player.init = function(){
   };
   Gevent.on(EVENTS.GAME.UPDATE, this.update.bind(this));
   Gevent.on(EVENTS.GAME.END, this.updateStats.bind(this));
-  Gevent.on(EVENTS.BATTLE.START, this.battleStart);
+  Gevent.on(EVENTS.BATTLE.START, this.battleStart.bind(this));
 }
 
 Player.battleStart = function(){
@@ -29,6 +30,7 @@ Player.update = function(){
 }
 
 Player.useSkill = function(skill, enemy){
+  console.log(arguments);
   if(!skill.canUse(this)) return false;
   if(skill.castTime == 0) return skill.use(Player, enemy);
   this.casting = setTimeout(function(){
