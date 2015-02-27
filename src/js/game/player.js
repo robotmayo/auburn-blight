@@ -3,14 +3,16 @@ var xtend = require('xtend');
 var EQUIPMENT_SLOTS = require('ab-data/equipment-slots');
 var Gevent = require('./gevent');
 var EVENTS = require('ab-data/events');
-Player = new Entity({ap : {max : 4}});
+Player = new Entity({ap : {max : 4} , apRegen : {current : 1}});
 Player.init = function(){
   this.name = "Player"
   this.activeSkills = {
     basicAttack : {
       name : 'Basic Attack',
       use : function(player, enemy){
-        console.log("Attack!", enemy)
+        console.log("Attack!", enemy);
+        enemy.stats.hp.subtract(99);
+        player.stats.hp.add(9);
       },
       canUse : function(){return true},
       castTime : 0

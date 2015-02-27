@@ -35,7 +35,10 @@ var b = require('ab-game/battle');
 var e = require('ab-game/entity');
 var p = require('ab-game/player');
 p.init();
-b.start(new e())
+var en = new e();
+console.log(en)
+en.stats.hp.add(999)
+b.start(en)
 var routes = (
   React.createElement(Route, {name: "app", path: "/", handler: App}, 
     React.createElement(Route, {name: "battle", path: "battle", handler: BattleDisplay})
@@ -46,7 +49,7 @@ Router.run(routes, function (Handler) {
   React.render(React.createElement(Handler, null), document.body);
 });
 
-},{"./battle-display.jsx":189,"ab-game/battle":191,"ab-game/entity":192,"ab-game/game":193,"ab-game/player":202,"react":187,"react-router":27}],2:[function(require,module,exports){
+},{"./battle-display.jsx":189,"ab-game/battle":191,"ab-game/entity":192,"ab-game/game":194,"ab-game/player":203,"react":187,"react-router":27}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -21288,27 +21291,43 @@ function extend() {
 var PlayerBattle = require('./player-battle-display.jsx');
 var EnemyBattle = require('./enemy-battle-display.jsx');
 var React = require('react');
-var Battle = require('ab-game/battle')
+var Battle = require('ab-game/battle');
+var Player = require('ab-game/player');
+var Gevent = require('ab-game/gevent');
 module.exports = React.createClass({displayName: "exports",
+  componentWillMount : function(){
+    var self = this;
+    this.replaceState(Battle);
+    Gevent.on("GAME_UPDATE", function(){
+      self.replaceState(Battle);
+      self.render();
+    })
+  },
   render : function(){
     return (
       React.createElement("div", null, 
-        React.createElement(PlayerBattle, null), 
-        React.createElement(EnemyBattle, {enemy: Battle.enemy})
+        React.createElement(PlayerBattle, {player: Player, enemy: this.state.enemy}), 
+        React.createElement(EnemyBattle, {enemy: this.state.enemy})
       )
     )
   }
 });
 
-},{"./enemy-battle-display.jsx":190,"./player-battle-display.jsx":204,"ab-game/battle":191,"react":187}],190:[function(require,module,exports){
+},{"./enemy-battle-display.jsx":190,"./player-battle-display.jsx":205,"ab-game/battle":191,"ab-game/gevent":195,"ab-game/player":203,"react":187}],190:[function(require,module,exports){
 var React = require('react');
+var Stat = require('./stat.jsx');
 module.exports = React.createClass({displayName: "exports",
   render : function(){
-    return React.createElement("h1", null, this.props.enemy.name)
+    return (
+      React.createElement("div", null, 
+        React.createElement("h1", null, this.props.enemy.name), 
+        React.createElement(Stat, {stat: this.props.enemy.stats.hp, current: true, max: true})
+      )
+      )
   }
 });
 
-},{"react":187}],191:[function(require,module,exports){
+},{"./stat.jsx":207,"react":187}],191:[function(require,module,exports){
 var Gevent = require('./gevent');
 var EVENTS = require('ab-data/events');
 var Battle = {};
@@ -21342,13 +21361,14 @@ Battle.playerEnd = function(){
 }
 
 module.exports = Battle;
-},{"./gevent":194,"./player":202,"ab-data/events":199}],192:[function(require,module,exports){
+},{"./gevent":195,"./player":203,"ab-data/events":200}],192:[function(require,module,exports){
 var stats = require('ab-data/stats');
 var Stat = require('ab-game/stat');
 var xtend = require('xtend');
 var eventer = require('ab-game/gevent');
 var EVENTS = require('ab-data/events');
 var EQUIPMENT_SLOTS = require('ab-data/equipment-slots');
+var GameTimer = require('./game-timer');
 
 function Ent(st){
   this.name = "Enemy";
@@ -21358,9 +21378,9 @@ function Ent(st){
 }
 
 Ent.prototype.regen = function(hp, mp, ap) {
-  if(hp) this.stats.hp.add(this.stats.hpRegen.current);
-  if(mp) this.stats.mp.add(this.stats.mpRegen.current);
-  if(ap) this.stats.ap.add(this.stats.apRegen.current);
+  if(hp) this.stats.hp.add(this.stats.hpRegen.current * GameTimer.elapsed);
+  if(mp) this.stats.mp.add(this.stats.mpRegen.current * GameTimer.elapsed);
+  if(ap) this.stats.ap.add(this.stats.apRegen.current * GameTimer.elapsed);
 };
 
 Ent.prototype.update = function() {
@@ -21382,18 +21402,20 @@ Ent.prototype.createStats = function(st) {
 };
 
 module.exports = Ent;
-},{"ab-data/equipment-slots":195,"ab-data/events":199,"ab-data/stats":201,"ab-game/gevent":194,"ab-game/stat":203,"xtend":188}],193:[function(require,module,exports){
+},{"./game-timer":193,"ab-data/equipment-slots":196,"ab-data/events":200,"ab-data/stats":202,"ab-game/gevent":195,"ab-game/stat":204,"xtend":188}],193:[function(require,module,exports){
+module.exports = {
+  elapsed : 0,
+  last : 0,
+  id : 0
+}
+},{}],194:[function(require,module,exports){
 var Game = {};
 var EVENTS = require('ab-data/events');
 var Gevent = require('./gevent');
 var Player = require('./player');
 Game.player = Player;
 //var Storage = require('./storage')
-Game.timer = {
-  elapsed : 0,
-  last : 0,
-  id : null
-};
+Game.timer = require('./game-timer');
 
 //Game.settings = Storage.get('GAME.SETTINGS');
 Game.settings = {
@@ -21406,8 +21428,9 @@ Game.start = function(){
 }
 
 Game.tick = function(){
+  console.log(Game.timer.elapsed);
   var now = Date.now();
-  Game.timer.elapsed = now - Game.timer.last;
+  Game.timer.elapsed = (now - Game.timer.last) / 1000;
   Gevent.emit(EVENTS.GAME.START, Game);
   Gevent.emit(EVENTS.GAME.UPDATE, Game);
   Gevent.emit(EVENTS.GAME.END, Game);
@@ -21416,10 +21439,10 @@ Game.tick = function(){
 }
 
 module.exports = Game;
-},{"./gevent":194,"./player":202,"ab-data/events":199}],194:[function(require,module,exports){
+},{"./game-timer":193,"./gevent":195,"./player":203,"ab-data/events":200}],195:[function(require,module,exports){
 var EE = require('events').EventEmitter;
 module.exports = new EE();
-},{"events":2}],195:[function(require,module,exports){
+},{"events":2}],196:[function(require,module,exports){
 module.exports={
   "head" : {},
   "top" : {},
@@ -21435,23 +21458,23 @@ module.exports={
   "eye" : {},
   "face" : {} 
 }
-},{}],196:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 module.exports={
   "UPDATE" : "BATTLE_UPDATE",
   "START" : "BATTLE_START",
   "END" : "BATTLE_END" 
 }
-},{}],197:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 module.exports={
   "DIE" : "ENEMY_DIED"
 }
-},{}],198:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 module.exports={
   "UPDATE" : "GAME_UPDATE",
   "START" : "GAME_START",
   "END" : "GAME_END" 
 }
-},{}],199:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 (function (global){
 module.exports = {
   GAME : require('./game'),
@@ -21461,11 +21484,11 @@ module.exports = {
 }
 global.GAME_EVENTS = module.exports;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./battle":196,"./enemy":197,"./game":198,"./player":200}],200:[function(require,module,exports){
+},{"./battle":197,"./enemy":198,"./game":199,"./player":201}],201:[function(require,module,exports){
 module.exports={
   "DIE" : "PLAYER_DIED"
 }
-},{}],201:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 module.exports={
   "str" : {"name" : "Strength", "abbv" : "STR", "min" : 0, "max" : 9999, "desc" : "Affects physical damage. Slightly affects Max Health. Affects stun threshold."},
   "dex" : {"name" : "Dexterity", "abbv" : "DEX", "min" : 0, "max" : 9999, "desc" : "Affects AP regen. Affects damage with ranged weapons. Affects paralysis threshold."},
@@ -21544,21 +21567,23 @@ module.exports={
   "lightResPenPercent" : {"name" : "Percent Light Resistance Penetration", "abbv" : "LGT PEN PRC", "min" : 0, "max" : 100, "desc" : "Ignores a percent amount of the targets Light Resistance."}
 
 }
-},{}],202:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 (function (global){
 var Entity = require('./entity');
 var xtend = require('xtend');
 var EQUIPMENT_SLOTS = require('ab-data/equipment-slots');
 var Gevent = require('./gevent');
 var EVENTS = require('ab-data/events');
-Player = new Entity({ap : {max : 4}});
+Player = new Entity({ap : {max : 4} , apRegen : {current : 1}});
 Player.init = function(){
   this.name = "Player"
   this.activeSkills = {
     basicAttack : {
       name : 'Basic Attack',
       use : function(player, enemy){
-        console.log("Attack!", enemy)
+        console.log("Attack!", enemy);
+        enemy.stats.hp.subtract(99);
+        player.stats.hp.add(9);
       },
       canUse : function(){return true},
       castTime : 0
@@ -21589,7 +21614,7 @@ Player.useSkill = function(skill, enemy){
 
 global.Player = module.exports = Player;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./entity":192,"./gevent":194,"ab-data/equipment-slots":195,"ab-data/events":199,"xtend":188}],203:[function(require,module,exports){
+},{"./entity":192,"./gevent":195,"ab-data/equipment-slots":196,"ab-data/events":200,"xtend":188}],204:[function(require,module,exports){
 
 function Stat(current, min, max, name, abbv, desc){
   this.current = current;
@@ -21660,13 +21685,54 @@ Stat.prototype.calcTotal = function() {
 };
 
 module.exports = Stat;
-},{}],204:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
+var React = require('react');
+var SkillBattleButtons = require('./skill-battle-display.jsx');
+var Battle = require('ab-game/battle');
+var Stat = require('./stat.jsx');
+var Gevent = require('ab-game/gevent');
+module.exports = React.createClass({displayName: "exports",
+  render : function(){
+    return (
+      React.createElement("div", null, 
+        React.createElement("h1", null, "Player"), 
+        React.createElement(Stat, {stat: this.props.player.stats.hp, current: true, max: true}), 
+        React.createElement(Stat, {stat: this.props.player.stats.ap, current: true, max: true}), 
+        React.createElement(SkillBattleButtons, {enemy: this.props.enemy})
+      )
+    )
+  }
+});
+
+},{"./skill-battle-display.jsx":206,"./stat.jsx":207,"ab-game/battle":191,"ab-game/gevent":195,"react":187}],206:[function(require,module,exports){
 var React = require('react');
 var Player = require('ab-game/player');
 module.exports = React.createClass({displayName: "exports",
   render : function(){
-    return React.createElement("h1", null, Player.name)
+    var skillList = Object.keys(Player.activeSkills).map(function(k){
+      var s = Player.activeSkills[k];
+      return React.createElement("li", null, React.createElement("button", {onClick: Player.useSkill.bind(Player, s, this.props.enemy), data: s}, " ", s.name, " "))
+    }, this)
+    return (
+      React.createElement("ul", null, skillList, " ")
+    );
   }
 });
 
-},{"ab-game/player":202,"react":187}]},{},[1]);
+},{"ab-game/player":203,"react":187}],207:[function(require,module,exports){
+var React = require('react');
+var Gevent = require('ab-game/gevent');
+module.exports = React.createClass({displayName: "exports",
+  render : function(){
+    var list = [React.createElement("span", null, this.props.stat.name, ": ")];
+    if(this.props.current){
+      list.push(React.createElement("span", null, Math.floor(this.props.stat.current)));
+    }
+    if(this.props.max){
+      list.push(React.createElement("span", null, " / ", Math.floor(this.props.stat.max)));
+    }
+    return React.createElement("div", null, list)
+  }
+})
+
+},{"ab-game/gevent":195,"react":187}]},{},[1]);

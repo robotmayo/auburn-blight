@@ -4,11 +4,7 @@ var Gevent = require('./gevent');
 var Player = require('./player');
 Game.player = Player;
 //var Storage = require('./storage')
-Game.timer = {
-  elapsed : 0,
-  last : 0,
-  id : null
-};
+Game.timer = require('./game-timer');
 
 //Game.settings = Storage.get('GAME.SETTINGS');
 Game.settings = {
@@ -21,8 +17,9 @@ Game.start = function(){
 }
 
 Game.tick = function(){
+  console.log(Game.timer.elapsed);
   var now = Date.now();
-  Game.timer.elapsed = now - Game.timer.last;
+  Game.timer.elapsed = (now - Game.timer.last) / 1000;
   Gevent.emit(EVENTS.GAME.START, Game);
   Gevent.emit(EVENTS.GAME.UPDATE, Game);
   Gevent.emit(EVENTS.GAME.END, Game);

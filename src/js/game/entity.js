@@ -4,6 +4,7 @@ var xtend = require('xtend');
 var eventer = require('ab-game/gevent');
 var EVENTS = require('ab-data/events');
 var EQUIPMENT_SLOTS = require('ab-data/equipment-slots');
+var GameTimer = require('./game-timer');
 
 function Ent(st){
   this.name = "Enemy";
@@ -13,9 +14,9 @@ function Ent(st){
 }
 
 Ent.prototype.regen = function(hp, mp, ap) {
-  if(hp) this.stats.hp.add(this.stats.hpRegen.current);
-  if(mp) this.stats.mp.add(this.stats.mpRegen.current);
-  if(ap) this.stats.ap.add(this.stats.apRegen.current);
+  if(hp) this.stats.hp.add(this.stats.hpRegen.current * GameTimer.elapsed);
+  if(mp) this.stats.mp.add(this.stats.mpRegen.current * GameTimer.elapsed);
+  if(ap) this.stats.ap.add(this.stats.apRegen.current * GameTimer.elapsed);
 };
 
 Ent.prototype.update = function() {
