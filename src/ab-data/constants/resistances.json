@@ -1,0 +1,10 @@
+{
+  "ARMOR" : {
+    "BASE" : 0.053,
+    "PERCENT" : 0.0008
+  },
+  "MAGIC_RESISTANCE" : {
+    "BASE" : 0.039,
+    "PERCENT" : 0.0005
+  }
+}

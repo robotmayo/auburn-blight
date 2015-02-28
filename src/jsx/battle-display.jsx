@@ -8,10 +8,14 @@ module.exports = React.createClass({
   componentWillMount : function(){
     var self = this;
     this.replaceState(Battle);
-    Gevent.on("GAME_UPDATE", function(){
+    this.update = function(){
       self.replaceState(Battle);
       self.render();
-    })
+    }
+    Gevent.on("GAME_UPDATE", this.update);
+  },
+  componentWillUnmount : function(){
+    Gevent.removeListener("GAME_UPDATE", this.update);
   },
   render : function(){
     return (

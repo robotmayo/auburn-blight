@@ -17,7 +17,6 @@ Game.start = function(){
 }
 
 Game.tick = function(){
-  console.log(Game.timer.elapsed);
   var now = Date.now();
   Game.timer.elapsed = (now - Game.timer.last) / 1000;
   Gevent.emit(EVENTS.GAME.START, Game);

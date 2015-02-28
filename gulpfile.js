@@ -15,7 +15,7 @@ gulp.task('browserify', function(){
 });
 
 gulp.task('watch', function(){
-  watch(['./src/**/*.js', './src/**/*.jsx'], function(){
+  watch(['./src/**/*.js', './src/**/*.jsx', './src/**/*.json'], function(){
     gulp.start('browserify');
   })
 })

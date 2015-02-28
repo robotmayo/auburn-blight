@@ -34,9 +34,7 @@ var b = require('ab-game/battle');
 var e = require('ab-game/entity');
 var p = require('ab-game/player');
 p.init();
-var en = new e();
-console.log(en)
-en.stats.hp.add(999)
+var en = new e(require('ab-data/base-player-stats'));
 b.start(en)
 var routes = (
   <Route name="app" path="/" handler={App}>

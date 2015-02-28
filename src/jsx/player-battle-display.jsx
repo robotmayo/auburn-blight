@@ -9,6 +9,7 @@ module.exports = React.createClass({
       <div>
         <h1>Player</h1>
         <Stat stat={this.props.player.stats.hp} current={true} max={true}/>
+        <Stat stat={this.props.player.stats.mp} current={true} max={true}/>
         <Stat stat={this.props.player.stats.ap} current={true} max={true}/>
         <SkillBattleButtons enemy={this.props.enemy}/>
       </div>

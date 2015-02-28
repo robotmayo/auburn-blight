@@ -3,18 +3,32 @@ var xtend = require('xtend');
 var EQUIPMENT_SLOTS = require('ab-data/equipment-slots');
 var Gevent = require('./gevent');
 var EVENTS = require('ab-data/events');
-Player = new Entity({ap : {max : 4} , apRegen : {current : 1}});
+var DAMAGE = require('ab-data/constants/damage-types');
+var Damage = require('./damage');
+Player = new Entity(require('ab-data/base-player-stats'));
 Player.init = function(){
-  this.name = "Player"
+  this.name = "Player";
   this.activeSkills = {
     basicAttack : {
       name : 'Basic Attack',
-      use : function(player, enemy){
-        console.log("Attack!", enemy);
-        enemy.stats.hp.subtract(99);
-        player.stats.hp.add(9);
+      costs : {
+        ap : 1
       },
-      canUse : function(){return true},
+      applyCost : function(player, enemy){
+        player.stats.ap.subtract(this.costs.ap);
+        return this;
+      },
+      use : function(player, enemy){
+        console.log("Using basic attack!", enemy);
+        var d = new Damage();
+        d.add(5, DAMAGE.TYPE.PHYSICAL)
+        console.log(d);
+        enemy.applyDamage(d);
+        return this;
+      },
+      canUse : function(player, enemy){
+        return player.stats.ap.current >= 1;
+      },
       castTime : 0
     }
   };
@@ -33,10 +47,10 @@ Player.update = function(){
 
 Player.useSkill = function(skill, enemy){
   console.log(arguments);
-  if(!skill.canUse(this)) return false;
-  if(skill.castTime == 0) return skill.use(Player, enemy);
+  if(!skill.canUse(this, enemy)) return false;
+  if(skill.castTime == 0) return skill.applyCost(this, enemy).use(this, enemy);
   this.casting = setTimeout(function(){
-    skill.use(Player, Player.target);
+    skill.applyCost(this, enemy).use(this, enemy);
   }, skill.castTime *
    1000);
 };

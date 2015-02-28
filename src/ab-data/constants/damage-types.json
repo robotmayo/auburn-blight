@@ -1,9 +1,21 @@
 {
-  "PURE" : "PURE",
-  "PHYSICAL" : "PHYSICAL",
-  "MAGICAL" : "MAGICAL",
-  "STUN" : "STUN",
-  "PARA" : "PARALASYS",
-  "POISON" : "POISON",
-  "HP" : "HP"
+  "TYPE" : {
+    "PURE" : "PURE",
+    "PHYSICAL" : "PHYSICAL",
+    "MAGICAL" : "MAGICAL",
+    "STUN" : "STUN",
+    "PARA" : "PARALASYS",
+    "POISON" : "POISON",
+    "HP" : "HP"
+  },
+  "ELEMENT" : {
+    "FIRE" : "FIRE",
+    "ICE" : "ICE",
+    "WATER" : "WATER",
+    "ELECTRIC" : "ELECTRIC",
+    "EARTH" : "EARTH",
+    "WIND" : "WIND",
+    "DARK" : "DARK",
+    "LIGHT" : "LIGHT"
+  }
 }
