@@ -5,12 +5,16 @@ var Gevent = require('./gevent');
 var EVENTS = require('ab-data/events');
 var DAMAGE = require('ab-data/constants/damage-types');
 var Damage = require('./damage');
+var objToArray = require('ab-utils/objToArray');
+var FrameTimer = require('./game-timer');
 Player = new Entity(require('ab-data/base-player-stats'));
 Player.init = function(){
   this.name = "Player";
   this.activeSkills = {
     basicAttack : {
       name : 'Basic Attack',
+      cooldown : 0,
+      baseCooldown : 3,
       costs : {
         ap : 1
       },
@@ -24,10 +28,12 @@ Player.init = function(){
         d.add(5, DAMAGE.TYPE.PHYSICAL)
         console.log(d);
         enemy.applyDamage(d);
+        this.cooldown = this.baseCooldown;
         return this;
       },
       canUse : function(player, enemy){
-        return player.stats.ap.current >= 1;
+        console.log(this.cooldown)
+        return player.stats.ap.current >= 1 && this.cooldown === 0;
       },
       castTime : 0
     }
@@ -43,11 +49,26 @@ Player.battleStart = function(){
 
 Player.update = function(){
   this.regen(true, true, true);
+  this.updateCoolDowns();
+}
+
+Player.updateCoolDowns = function(){
+  objToArray(this.activeSkills)
+  .filter(function(skill){
+    return skill.cooldown > 0;
+  })
+  .forEach(function(skill){
+    skill.cooldown -= FrameTimer.elapsed;
+    if(skill.cooldown < 0) skill.cooldown = 0;
+  });
 }
 
 Player.useSkill = function(skill, enemy){
   console.log(arguments);
-  if(!skill.canUse(this, enemy)) return false;
+  if(!skill.canUse(this, enemy)){
+    console.log("cant use")
+    return false;
+  }
   if(skill.castTime == 0) return skill.applyCost(this, enemy).use(this, enemy);
   this.casting = setTimeout(function(){
     skill.applyCost(this, enemy).use(this, enemy);

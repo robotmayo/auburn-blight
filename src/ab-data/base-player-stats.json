@@ -1,6 +1,6 @@
 {
   "ap": {
-    "max": 4,
+    "max": 2,
     "current" : 0
   },
   "apRegen": {
